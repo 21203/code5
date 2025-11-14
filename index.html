@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roses for Pauline Wangari</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #0c0c2e, #1a1a4a);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .message {
+            text-align: center;
+            margin-bottom: 50px;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #ff1493, 0 0 20px #ff1493;
+            animation: pulse 2s infinite;
+        }
+        
+        .garden {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        
+        .rose {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .rose:hover {
+            transform: scale(1.1);
+        }
+        
+        .petals {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+        
+        .petal {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(to bottom, #ff1493, #ff69b4);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 0 15px #ff1493, 0 0 30px #ff1493;
+            transform-origin: bottom center;
+            animation: glow 3s infinite alternate;
+        }
+        
+        .stem {
+            width: 8px;
+            height: 150px;
+            background: linear-gradient(to bottom, #228b22, #32cd32);
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: #32cd32;
+            border-radius: 50% 0 50% 0;
+            transform: rotate(-45deg);
+            top: 80px;
+            left: 30px;
+        }
+        
+        .leaf:nth-child(2) {
+            left: -30px;
+            transform: rotate(45deg) scaleX(-1);
+        }
+        
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 15px #ff1493, 0 0 30px #ff1493;
+                opacity: 0.8;
+            }
+            100% {
+                box-shadow: 0 0 25px #ff1493, 0 0 50px #ff1493, 0 0 75px #ff1493;
+                opacity: 1;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px #ff1493, 0 0 20px #ff1493;
+            }
+            50% {
+                text-shadow: 0 0 15px #ff1493, 0 0 30px #ff1493, 0 0 45px #ff1493;
+            }
+            100% {
+                text-shadow: 0 0 10px #ff1493, 0 0 20px #ff1493;
+            }
+        }
+        
+        .bloom {
+            animation: bloom 2s forwards;
+        }
+        
+        @keyframes bloom {
+            0% {
+                transform: scale(0.1) rotate(0deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h1>I Love You, Pauline Wangari!</h1>
+        <p>Click on the roses to make them bloom</p>
+    </div>
+    
+    <div class="garden" id="garden">
+        <!-- Roses will be generated here -->
+    </div>
+    
+    <div class="stars" id="stars"></div>
+
+    <script>
+        // Create stars in the background
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(star);
+        }
+        
+        // Create multiple roses
+        const garden = document.getElementById('garden');
+        const roseCount = 7;
+        
+        for (let i = 0; i < roseCount; i++) {
+            createRose(i);
+        }
+        
+        function createRose(index) {
+            const rose = document.createElement('div');
+            rose.classList.add('rose');
+            
+            // Random position for each rose
+            const left = 10 + (index * (80 / (roseCount - 1)));
+            rose.style.left = `${left}%`;
+            rose.style.bottom = `${10 + Math.random() * 20}%`;
+            
+            // Create petals
+            const petals = document.createElement('div');
+            petals.classList.add('petals');
+            
+            // Create multiple petals in a circular pattern
+            const petalCount = 8;
+            for (let j = 0; j < petalCount; j++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Position petals in a circle
+                const angle = (j / petalCount) * 360;
+                petal.style.transform = `rotate(${angle}deg) translateY(-20px)`;
+                
+                // Add bloom animation with delay
+                petal.style.animationDelay = `${Math.random() * 2}s`;
+                
+                petals.appendChild(petal);
+            }
+            
+            // Create stem
+            const stem = document.createElement('div');
+            stem.classList.add('stem');
+            
+            // Create leaves
+            const leaf1 = document.createElement('div');
+            leaf1.classList.add('leaf');
+            
+            const leaf2 = document.createElement('div');
+            leaf2.classList.add('leaf');
+            
+            stem.appendChild(leaf1);
+            stem.appendChild(leaf2);
+            
+            // Assemble the rose
+            rose.appendChild(petals);
+            rose.appendChild(stem);
+            
+            // Add click event to bloom
+            rose.addEventListener('click', function() {
+                petals.classList.add('bloom');
+                
+                // Create floating hearts
+                createHearts(rose);
+            });
+            
+            garden.appendChild(rose);
+        }
+        
+        function createHearts(rose) {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.style.position = 'absolute';
+                    heart.style.left = rose.offsetLeft + rose.offsetWidth/2 + 'px';
+                    heart.style.bottom = rose.offsetTop + 'px';
+                    heart.style.fontSize = '20px';
+                    heart.style.opacity = '1';
+                    heart.style.transition = 'all 2s';
+                    heart.style.zIndex = '5';
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Animate heart floating up
+                    setTimeout(() => {
+                        heart.style.bottom = '100%';
+                        heart.style.opacity = '0';
+                    }, 10);
+                    
+                    // Remove heart after animation
+                    setTimeout(() => {
+                        document.body.removeChild(heart);
+                    }, 2000);
+                }, i * 200);
+            }
+        }
+        
+        // Auto-bloom some roses after a delay
+        setTimeout(() => {
+            const roses = document.querySelectorAll('.rose');
+            for (let i = 0; i < Math.min(3, roses.length); i++) {
+                setTimeout(() => {
+                    const petals = roses[i].querySelector('.petals');
+                    petals.classList.add('bloom');
+                    createHearts(roses[i]);
+                }, i * 1000);
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
